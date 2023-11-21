@@ -8,9 +8,9 @@ namespace DevIOApi.Configuration
     {
         public AutomapperConfig()
         {
-
             CreateMap<Cliente, ClienteViewModel>().ReverseMap();
-
+            CreateMap<ReceitaEntrada, ReceitaEntradaViewModel>().ReverseMap();
+            CreateMap<ReceitaSaida, ReceitaSaidaViewModel>().ReverseMap();
         }
 
     }

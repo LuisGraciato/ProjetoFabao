@@ -8,9 +8,13 @@
         public string Email { get; set; }
         public string CPF { get; set; }
 
+        public List<ReceitaEntrada> ReceitasEntrada { get; set; }
+        public List<ReceitaSaida> ReceitasSaida { get; set; }
+
         public Cliente()
         {
-
+            ReceitasEntrada = new List<ReceitaEntrada>();
+            ReceitasSaida = new List<ReceitaSaida>();
         }
     }
 }

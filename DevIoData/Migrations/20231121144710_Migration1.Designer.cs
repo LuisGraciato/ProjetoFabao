@@ -4,6 +4,7 @@ using DevIoData.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevIoData.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231121144710_Migration1")]
+    partial class Migration1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +53,7 @@ namespace DevIoData.Migrations
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("DevIoBusiness.Models.ReceitaEntrada", b =>
+            modelBuilder.Entity("DevIoBusiness.Models.Receita", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,48 +74,13 @@ namespace DevIoData.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("ReceitasEntrada");
+                    b.ToTable("Receitas");
                 });
 
-            modelBuilder.Entity("DevIoBusiness.Models.ReceitaSaida", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DataSaida")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Valor")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId");
-
-                    b.ToTable("ReceitasSaida");
-                });
-
-            modelBuilder.Entity("DevIoBusiness.Models.ReceitaEntrada", b =>
+            modelBuilder.Entity("DevIoBusiness.Models.Receita", b =>
                 {
                     b.HasOne("DevIoBusiness.Models.Cliente", "Cliente")
-                        .WithMany("ReceitasEntrada")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-                });
-
-            modelBuilder.Entity("DevIoBusiness.Models.ReceitaSaida", b =>
-                {
-                    b.HasOne("DevIoBusiness.Models.Cliente", "Cliente")
-                        .WithMany("ReceitasSaida")
+                        .WithMany("Receitas")
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -122,9 +90,7 @@ namespace DevIoData.Migrations
 
             modelBuilder.Entity("DevIoBusiness.Models.Cliente", b =>
                 {
-                    b.Navigation("ReceitasEntrada");
-
-                    b.Navigation("ReceitasSaida");
+                    b.Navigation("Receitas");
                 });
 #pragma warning restore 612, 618
         }

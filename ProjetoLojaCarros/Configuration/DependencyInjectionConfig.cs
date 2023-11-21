@@ -11,13 +11,13 @@ namespace DevIOApi.Configuration
         {
             services.AddScoped<MyDbContext>();
 
-
             services.AddScoped<IClienteRepository, ClienteRepository>();
-
-
+            services.AddScoped<IReceitaEntradaRepository, ReceitaEntradaRepository>();
+            services.AddScoped<IReceitaSaidaRepository, ReceitaSaidaRepository>();
 
             services.AddScoped<IClienteService, ClienteService>();
-
+            services.AddScoped<IReceitaEntradaService, ReceitaEntradaService>();
+            services.AddScoped<IReceitaSaidaService, ReceitaSaidaService>();
 
             return services;
         }

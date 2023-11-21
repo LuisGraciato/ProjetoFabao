@@ -16,12 +16,18 @@ namespace DevIoData.Repository
 
         public async Task<IEnumerable<Cliente>> GetAllClientes()
         {
-            return await _dbContext.Clientes.ToListAsync();
+            return await _dbContext.Clientes
+                .Include(c => c.ReceitasSaida)
+                .Include(c => c.ReceitasEntrada)
+                .ToListAsync();
         }
 
         public async Task<Cliente> GetClienteById(int id)
         {
-            return await _dbContext.Clientes.FindAsync(id);
+            return await _dbContext.Clientes
+            .Include(c => c.ReceitasSaida)
+            .Include(c => c.ReceitasEntrada)
+            .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Cliente> AddCliente(Cliente cliente)

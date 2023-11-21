@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using DevIOApi.ViewModels;
-using DevIOApi.ViewModels.ViewModelsCompletas;
 using DevIoBusiness.Interfaces;
 using DevIoBusiness.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LojaCarrosApi.Controllers
+namespace ApiFabao.Controllers
 {
     [ApiController]
     [Route("api/clientes")]
@@ -24,8 +23,8 @@ namespace LojaCarrosApi.Controllers
         public async Task<IActionResult> GetAllClientes()
         {
             var clientes = await _clienteService.GetAllClientes();
-            var clienteViewModels = _mapper.Map<IEnumerable<ClienteCompletoViewModel>>(clientes);
-            return Ok(clienteViewModels);
+            var clienteViewModel = _mapper.Map<IEnumerable<ClienteViewModel>>(clientes);
+            return Ok(clienteViewModel);
         }
 
         [HttpGet("{id}")]
@@ -35,7 +34,7 @@ namespace LojaCarrosApi.Controllers
             if (cliente == null)
                 return NotFound();
 
-            var clienteViewModel = _mapper.Map<ClienteCompletoViewModel>(cliente);
+            var clienteViewModel = _mapper.Map<ClienteViewModel>(cliente);
             return Ok(clienteViewModel);
         }
 
@@ -46,9 +45,6 @@ namespace LojaCarrosApi.Controllers
                 return BadRequest(ModelState);
 
             var cliente = _mapper.Map<Cliente>(clienteViewModel);
-            cliente.Ativo = true;
-            cliente.DataAlteracao = DateTime.Now;
-
             var createdCliente = await _clienteService.AddCliente(cliente);
             var createdClienteViewModel = _mapper.Map<ClienteViewModel>(createdCliente);
 
@@ -67,34 +63,27 @@ namespace LojaCarrosApi.Controllers
 
             cliente.Nome = clienteViewModel.Nome;
             cliente.Email = clienteViewModel.Email;
-            cliente.IdEndereco = clienteViewModel.IdEndereco;
-            cliente.IdTelefone = clienteViewModel.IdTelefone;
-            cliente.DataAlteracao = DateTime.Now;
+            cliente.CPF = clienteViewModel.CPF;
+            cliente.DataNascimento = (DateTime)clienteViewModel.DataNascimento;
+            
 
             var updatedCliente = await _clienteService.UpdateCliente(cliente);
             var updatedClienteViewModel = _mapper.Map<ClienteViewModel>(updatedCliente);
 
             return Ok(updatedClienteViewModel);
         }
-
-        [HttpPut("deactivate/{id}")]
-        public async Task<IActionResult> DeactivateCliente(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCliente(int id)
         {
-            var result = await _clienteService.DeactivateCliente(id);
-            if (!result)
+            var deletedCliente = await _clienteService.GetClienteById(id);
+            if (deletedCliente == null)
                 return NotFound();
 
-            return NoContent();
+            await _clienteService.DeleteCliente(id);
+
+            var deletedClienteViewModel = _mapper.Map<ClienteViewModel>(deletedCliente);
+            return Ok(deletedClienteViewModel);
         }
 
-        [HttpPut("activate/{id}")]
-        public async Task<IActionResult> ActivateCliente(int id)
-        {
-            var result = await _clienteService.ActivateCliente(id);
-            if (!result)
-                return NotFound();
-
-            return NoContent();
-        }
     }
 }

@@ -32,14 +32,9 @@ namespace DevIoBusiness.Services
             return await _clienteRepository.UpdateCliente(cliente);
         }
 
-        public async Task<bool> DeactivateCliente(int id)
+        public async Task DeleteCliente(int id)
         {
-            return await _clienteRepository.DeactivateCliente(id);
-        }
-
-        public async Task<bool> ActivateCliente(int id)
-        {
-            return await _clienteRepository.ActivateCliente(id);
+            await _clienteRepository.DeleteCliente(id);
         }
     }
 }

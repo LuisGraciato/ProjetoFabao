@@ -1,16 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace DevIoBusiness.Models
+﻿namespace DevIoBusiness.Models
 {
-    public class Cliente : Pessoa
+    public class Cliente
     {
-        [ForeignKey("Endereco")]
-        public int IdEndereco { get; set; }
-        public Endereco Endereco { get; set; }
-
-        [ForeignKey("Telefone")]
-        public int IdTelefone { get; set; }
-        public Telefone Telefone { get; set; }
+        public int Id { get; private set; }
+        public string Nome { get; set; }
+        public DateTime DataNascimento { get; set; }
+        public string Email { get; set; }
+        public string CPF { get; set; }
 
         public Cliente()
         {

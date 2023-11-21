@@ -1,7 +1,6 @@
 using AutoMapper;
 using DevIOApi.Configuration;
 using DevIoData.Context;
-using LojaCarrosApi.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -12,12 +11,6 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
-// IdentityConfig
-builder.Services.AddIdentityConfiguration(builder.Configuration);
-
-// JWTConfig
-builder.Services.AddJwtConfiguration(builder.Configuration);
 
 // Configuração do AutoMapper
 var mapperConfig = new MapperConfiguration(config =>

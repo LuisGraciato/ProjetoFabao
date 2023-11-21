@@ -38,26 +38,14 @@ namespace DevIoData.Repository
             return cliente;
         }
 
-        public async Task<bool> DeactivateCliente(int id)
+        public async Task DeleteCliente(int id)
         {
             var cliente = await _dbContext.Clientes.FindAsync(id);
-            if (cliente == null)
-                return false;
-
-            cliente.Ativo = false;
-            await _dbContext.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<bool> ActivateCliente(int id)
-        {
-            var cliente = await _dbContext.Clientes.FindAsync(id);
-            if (cliente == null)
-                return false;
-
-            cliente.Ativo = true;
-            await _dbContext.SaveChangesAsync();
-            return true;
+            if (cliente != null)
+            {
+                _dbContext.Clientes.Remove(cliente);
+                await _dbContext.SaveChangesAsync();
+            }
         }
     }
 }
